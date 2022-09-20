@@ -24,7 +24,7 @@ def getCobaltData(gameId: int):
 
 def getUserRank(userNum: int, seasonId: int, matchingTeamMode: int):
     #when query is 1sec per 1query
-    time.sleep(1.2)
+   # time.sleep(1.2)
     req = json.loads(requests.get(conf["endpoint"] + f'rank/{userNum}/{seasonId}/{matchingTeamMode}', headers=conf["header"]).text)
     rankName = ["아이언", "브론즈", "실버", "골드", "플래티넘", "다이아몬드"]
     mmr = req["userRank"]["mmr"]
