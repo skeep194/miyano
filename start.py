@@ -19,10 +19,14 @@ async def say(message):
 
 @bot.command()
 async def recent(message, *arg):
-    user_str = miyano_user.get_er_nickname(message.author.id) if len(arg) == 0 else arg[0]
-    if user_str == '':
-        await message.send('등록되지 않은 사용자입니다. /register 명령어를 통해 이터널 리턴 닉네임을 등록해주세요.')
-        return
+    if len(arg) == 0:
+        try:
+            user_str = miyano_user.get_er_nickname(message.author.id)
+        except:
+            await message.send('등록되지 않은 사용자입니다. /register 명령어를 통해 이터널 리턴 닉네임을 등록해주세요.')
+            return
+    elif len(arg) == 1:
+        user_str = arg[0]
     user_num = service.get_user_num(user_str)
     req = get_request(f'user/games/{user_num}')
     res = service.get_cobalt_data(req["userGames"][0]["gameId"])
@@ -42,12 +46,12 @@ async def register(message, er_nickname):
 
 @bot.command()
 async def failnote(message):
-    with open("/root/Miyano/failnote", 'r') as f:
+    with open("/root/Miyano/document/failnote", 'r') as f:
         await message.send(str(f.read()))
 
 @bot.command()
 async def help(message):
-   with open("/root/Miyano/help", 'r') as f:
+   with open("/root/Miyano/document/help", 'r') as f:
        await message.send(str(f.read()))
 
 bot.run(conf["discord-token"])

@@ -1,18 +1,15 @@
-from mysql import conn, cur
+from mongod import miyanodb
 
 def register(discord_id: int, er_nickname: str) -> bool:
-    cur.execute('SELECT * FROM user WHERE discord_id=%s', (str(discord_id)))
-    res = 0
-    if len(cur.fetchall()) == 1:
-        res = cur.execute('UPDATE user SET er_nickname=%s WHERE discord_id=%s', (er_nickname, str(discord_id)))
+    is_user_exist = miyanodb.user.count_documents({"discord_id": discord_id}) > 0
+    if is_user_exist:
+        miyanodb.user.update_one({"discord_id": discord_id}, { "$set": {"er_nickname": er_nickname }}).matched_count
     else:
-        res = cur.execute('INSERT INTO user(discord_id, er_nickname) VALUE(%s, %s)', (str(discord_id), er_nickname))
-    conn.commit()
-    return res == 1
+        miyanodb.user.insert_one({"discord_id": discord_id, "er_nickname": er_nickname})
+    return True
 
 def get_er_nickname(discord_id: int) -> str:
-    cur.execute('SELECT er_nickname FROM user WHERE discord_id=%s', (str(discord_id)))
-    row = cur.fetchall()
-    if len(row) == 0:
-        return ""
-    return row[0][0]
+    doc = miyanodb.user.find_one({"discord_id": discord_id})
+    if doc == None:
+        raise Exception('not found')
+    return doc['er_nickname']
