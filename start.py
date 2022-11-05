@@ -3,6 +3,7 @@ from discord.ext import commands
 import json
 import service
 from request.er_request import get_request
+import request.get_data
 import user.miyano_user as miyano_user
 import datetime
 from conf import conf
@@ -31,9 +32,9 @@ async def recent(message, *arg):
             return
     elif len(arg) == 1:
         user_str = arg[0]
-    user_num = service.get_user_num(user_str)
-    req = get_request(f'user/games/{user_num}')
-    res = service.get_game_data(req["userGames"][0]["gameId"])
+    user_num = request.get_data.get_user_num(user_str)
+    req = request.get_data.get_user_game(user_num)
+    res = service.get_game_data(req[0]["gameId"], "text")
     await message.send(res)
 
 @bot.command()

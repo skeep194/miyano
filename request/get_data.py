@@ -1,4 +1,4 @@
-from er_request import get_request
+from .er_request import get_request
 
 def get_user_rank(userNum: int, seasonId: int, matchingTeamMode: int):
     req = get_request(f'rank/{userNum}/{seasonId}/{matchingTeamMode}')
@@ -23,3 +23,12 @@ def get_user_num(nickname: str):
     req = get_request(f'user/nickname?query={nickname}')
     userNum: int = req["user"]["userNum"]
     return userNum
+
+def get_character():
+    return get_request('data/Character')['data']
+
+def get_game(game_id: int):
+    return get_request(f'games/{game_id}')['userGames']
+
+def get_user_game(user_num: int):
+    return get_request(f'user/games/{user_num}')['userGames']
