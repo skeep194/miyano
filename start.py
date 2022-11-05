@@ -2,10 +2,10 @@ import discord
 from discord.ext import commands
 import json
 import service
-from conf import conf
-from er_request import get_request
-import miyano_user
+from request.er_request import get_request
+import user.miyano_user as miyano_user
 import datetime
+from conf import conf
 
 bot = commands.Bot(command_prefix='/', help_command=None, intents=discord.Intents.all())
 
@@ -15,7 +15,7 @@ async def on_ready():
 
 @bot.command()
 async def say(message):
-    await message.reply(str(message.author.name)+f' {arg1} {arg2}왈랄랄랄루~~~~~~')
+    await message.reply('왈랄랄랄루~~~~~~')
 
 @bot.command()
 async def 전역(message):
@@ -57,5 +57,13 @@ async def failnote(message):
 async def help(message):
    with open("/root/Miyano/document/help", 'r') as f:
        await message.send(str(f.read()))
+
+@bot.command()
+async def debug(message, arg):
+    req = get_request(f'games/{arg}')
+    service.get_cobalt_image(req['userGames'])
+    with open('/root/Miyano/temp.png', 'rb') as f:
+        await message.send(file=discord.File(f))
+
 
 bot.run(conf["discord-token"])
