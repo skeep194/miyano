@@ -1,6 +1,7 @@
 import request.get_data as get_data
 from result_text.cobalt import get_cobalt_text
 from result_text.lumia import get_lumia_text
+from result_image.cobalt import get_cobalt_image
 
 def get_game_data(game_id: int, type: str) -> str:
     try:
@@ -17,7 +18,7 @@ def get_game_data(game_id: int, type: str) -> str:
                 return get_lumia_text(user_games, game_mode)
         elif type == "image":
             if game_mode == 4:
-                return "cobalt image"
+                return get_cobalt_image(user_games, "temp")
             elif 1 <= game_mode <= 3:
                 return "lumia image"
     except:

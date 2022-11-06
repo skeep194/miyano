@@ -2,3 +2,4 @@
 __pycache__/
 *.py[cod]
 conf.py
+temp_image/

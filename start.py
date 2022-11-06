@@ -5,6 +5,7 @@ import service
 from request.er_request import get_request
 import request.get_data
 import user.miyano_user as miyano_user
+from result_image.cobalt import get_cobalt_image
 import datetime
 from conf import conf
 
@@ -34,12 +35,15 @@ async def recent(message, *arg):
         user_str = arg[0]
     user_num = request.get_data.get_user_num(user_str)
     req = request.get_data.get_user_game(user_num)
-    res = service.get_game_data(req[0]["gameId"], "text")
-    await message.send(res)
+    service.get_game_data(req[0]["gameId"], "image")
+    with open('/root/Miyano/temp_image/temp.png', 'rb') as f:
+        await message.send(file=discord.File(f))
 
 @bot.command()
 async def game(message, arg):
-    await message.send(service.get_game_data(arg))
+    service.get_game_data(arg, "image")
+    with open('/root/Miyano/temp_image/temp.png', 'rb') as f:
+        await message.send(file=discord.File(f))
 
 @bot.command()
 async def register(message, er_nickname):
@@ -62,8 +66,8 @@ async def help(message):
 @bot.command()
 async def debug(message, arg):
     req = get_request(f'games/{arg}')
-    service.get_cobalt_image(req['userGames'])
-    with open('/root/Miyano/temp.png', 'rb') as f:
+    get_cobalt_image(req['userGames'], 'temp')
+    with open('/root/Miyano/temp_image/temp.png', 'rb') as f:
         await message.send(file=discord.File(f))
 
 
