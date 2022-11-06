@@ -22,7 +22,7 @@ def get_text_box(text: str, flip: bool) -> Image:
     bbox = background_draw.multiline_textbbox((0, 0), text, font=fnt)
     textim = Image.new('RGBA', (bbox[0]+bbox[2], bbox[1]+bbox[3]), (0, 0, 0, 0))
     d = ImageDraw.Draw(textim)
-    d.multiline_text((0, 0), text, font=fnt)
+    d.multiline_text((0, 0), text, font=fnt, align="right" if flip else "left")
     if flip:
         textim = textim.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
     return textim
