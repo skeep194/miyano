@@ -18,7 +18,7 @@ def get_game_data(game_id: int, type: str) -> str:
                 return get_lumia_text(user_games, game_mode)
         elif type == "image":
             if game_mode == 4:
-                return get_cobalt_image(user_games, "temp")
+                return get_cobalt_image(user_games)
             elif 1 <= game_mode <= 3:
                 return "lumia image"
     except:

@@ -2,6 +2,8 @@ from conf import conf
 from PIL import Image, ImageFont, ImageDraw, ImageColor
 import copy
 import request.get_data
+import secrets
+import string
 from general.math import internal_division
 
 size_value = conf['image']['cobalt']
@@ -86,7 +88,7 @@ def draw_data(i: int, user, flip: bool):
     draw_character(i, user, flip)
     draw_graph(i, user, flip)
 
-def get_cobalt_image(user_games: list, file_name: str):
+def get_cobalt_image(user_games: list) -> str:
     global result
     result = copy.deepcopy(im)
 
@@ -102,4 +104,6 @@ def get_cobalt_image(user_games: list, file_name: str):
         draw_data(i, user, True)
     result = result.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
     
+    file_name = ''.join((secrets.choice(string.ascii_letters) for i in range(8)))
     result.save(f'/root/Miyano/temp_image/{file_name}.png')
+    return file_name
