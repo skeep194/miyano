@@ -10,7 +10,7 @@ size_value = conf['image']['cobalt']
 character = request.get_data.get_character()
 
 im = Image.new('RGBA', tuple(size_value['background_size']))
-background = Image.open('/root/Miyano/image/background/s7.png')
+background = Image.open('/root/Miyano/image/background/s8.png')
 background_gray = Image.open('/root/Miyano/image/background/transparent_gray.png')
 fnt = ImageFont.truetype('/root/Miyano/font/NanumGothic.ttf', 30)
 
